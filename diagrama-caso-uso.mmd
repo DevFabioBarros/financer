@@ -1,0 +1,51 @@
+flowchart LR
+    Usuario(["Usuario"])
+
+    subgraph Sistema["Financer"]
+        UC1(["Cadastrar receita"])
+        UC2(["Cadastrar despesa"])
+        UC3(["Cadastrar investimento"])
+        UC4(["Editar lancamento"])
+        UC5(["Remover lancamento"])
+        UC6(["Cadastrar categoria"])
+        UC7(["Remover categoria"])
+        UC8(["Consultar movimentacoes por periodo"])
+        UC9(["Visualizar totais do periodo"])
+        UC10(["Visualizar saldo acumulado"])
+        UC11(["Visualizar fluxo anual"])
+        UC12(["Visualizar despesas por categoria"])
+        UC13(["Visualizar receitas por categoria"])
+        UC14(["Visualizar desempenho mensal"])
+        UC15(["Alternar tema"])
+    end
+
+    Usuario --> UC1
+    Usuario --> UC2
+    Usuario --> UC3
+    Usuario --> UC4
+    Usuario --> UC5
+    Usuario --> UC6
+    Usuario --> UC7
+    Usuario --> UC8
+    Usuario --> UC11
+    Usuario --> UC12
+    Usuario --> UC13
+    Usuario --> UC14
+    Usuario --> UC15
+
+    UC1 -. usa categoria selecionada .-> UC6
+    UC2 -. usa categoria selecionada .-> UC6
+    UC3 -. usa categoria selecionada .-> UC6
+    UC7 -. remove apenas da lista de selecao .-> UC6
+    UC8 -. atualiza .-> UC9
+    UC8 -. atualiza .-> UC10
+    UC11 -. usa .-> UC8
+    UC12 -. usa .-> UC8
+    UC13 -. usa .-> UC8
+    UC14 -. usa .-> UC8
+
+    classDef actor fill:#111827,stroke:#334155,color:#ffffff
+    classDef casoUso fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    class Usuario actor
+    class UC1,UC2,UC3,UC4,UC5,UC6,UC7,UC8,UC9,UC10,UC11,UC12,UC13,UC14,UC15 casoUso
+

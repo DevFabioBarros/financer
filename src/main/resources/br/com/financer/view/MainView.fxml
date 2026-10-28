@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="raiz" prefHeight="800.0" prefWidth="1280.0" styleClass="root-pane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.financer.controller.MainController">
+    <top>
+        <HBox alignment="CENTER_LEFT" styleClass="header-bar" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="14.0" left="22.0" right="22.0" top="14.0" />
+            </padding>
+            <children>
+                <VBox minWidth="210.0" prefWidth="270.0">
+                    <children>
+                        <Label styleClass="header-title" text="Financer" wrapText="true" />
+                        <Label styleClass="header-subtitle" text="Controle Financeiro Pessoal" wrapText="true" />
+                    </children>
+                </VBox>
+
+                
+                <TilePane hgap="12.0" prefColumns="4" prefTileHeight="96.0" prefTileWidth="156.0" styleClass="kpi-grid, header-kpi-grid" vgap="12.0">
+                                                    <children>
+                                                        <VBox styleClass="kpi-card, kpi-income">
+                                                            <children>
+                                                                <Label styleClass="kpi-title" text="Receitas" wrapText="true" />
+                                                                <Label fx:id="lblTotalReceitas" styleClass="kpi-value" text="R$ 0,00" wrapText="true" />
+                                                            </children>
+                                                        </VBox>
+                                                        <VBox styleClass="kpi-card, kpi-expense">
+                                                            <children>
+                                                                <Label styleClass="kpi-title" text="Despesas" wrapText="true" />
+                                                                <Label fx:id="lblTotalDespesas" styleClass="kpi-value" text="R$ 0,00" wrapText="true" />
+                                                            </children>
+                                                        </VBox>
+                                                        <VBox styleClass="kpi-card, kpi-invested">
+                                                            <children>
+                                                                <Label styleClass="kpi-title" text="Investido" wrapText="true" />
+                                                                <Label fx:id="lblTotalInvestido" styleClass="kpi-value" text="R$ 0,00" wrapText="true" />
+                                                            </children>
+                                                        </VBox>
+                                                        <VBox styleClass="kpi-card, kpi-balance">
+                                                            <children>
+                                                                <Label styleClass="kpi-title" text="Saldo atual" wrapText="true" />
+                                                                <Label fx:id="lblSaldoAtual" styleClass="kpi-value" text="R$ 0,00" wrapText="true" />
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </TilePane>
+
+                <FlowPane alignment="CENTER_RIGHT" hgap="12.0" styleClass="header-actions" vgap="8.0">
+                    <children>
+                        <Button fx:id="botaoTema" onAction="#alternarTema" styleClass="btn-secondary" text="Tema claro" />
+                        <HBox alignment="CENTER" spacing="10.0" styleClass="filter-container">
+                            <padding>
+                                <Insets bottom="8.0" left="12.0" right="12.0" top="8.0" />
+                            </padding>
+                            <children>
+                                <Label styleClass="filter-label" text="Periodo:" wrapText="true" />
+                                <ComboBox fx:id="cbMesFiltro" prefWidth="126.0" promptText="Mes" styleClass="modern-combo" />
+                                <ComboBox fx:id="cbAnoFiltro" prefWidth="124.0" promptText="Ano" styleClass="modern-combo" />
+                            </children>
+                        </HBox>
+                    </children>
+                </FlowPane>
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" styleClass="content-scroll" vbarPolicy="AS_NEEDED">
+                            <content>
+                                <HBox fx:id="conteudoPrincipal" spacing="20.0" styleClass="workspace-content">
+                                    <padding>
+                                        <Insets bottom="20.0" left="22.0" right="22.0" top="20.0" />
+                                    </padding>
+                                    <children>
+                                        <VBox fx:id="painelEsquerdo" prefWidth="800.0" spacing="18.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                
+
+                                                <VBox styleClass="card-container" VBox.vgrow="ALWAYS">
+                                                    <padding>
+                                                        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+                                                    </padding>
+                                                    <children>
+                                                        <VBox spacing="10.0" styleClass="card-header">
+                                                            <VBox.margin>
+                                                                <Insets bottom="10.0" />
+                                                            </VBox.margin>
+                                                            <children>
+                                                                <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                                                    <children>
+                                                                        <Label styleClass="card-title" text="Movimentacoes" wrapText="true" />
+                                                                        <HBox spacing="4.0" styleClass="segmented-control">
+                                                                            <children>
+                                                                                <Button fx:id="botaoTabela" onAction="#exibirTabela" styleClass="btn-segmented, btn-segmented-active" text="Tabela" />
+                                                                                <Button fx:id="botaoGraficos" onAction="#exibirGraficos" styleClass="btn-segmented" text="Graficos" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                    </children>
+                                                                </HBox>
+                                                                <FlowPane alignment="CENTER_LEFT" hgap="8.0" styleClass="transaction-actions" vgap="8.0">
+                                                                    <children>
+                                                                        <Button fx:id="botaoNovaReceita" onAction="#prepararNovaReceita" styleClass="btn-action-income" text="+ Receita" />
+                                                                        <Button fx:id="botaoNovaDespesa" onAction="#prepararNovaDespesa" styleClass="btn-action-expense" text="+ Despesa" />
+                                                                        <Button fx:id="botaoNovoInvestimento" onAction="#prepararNovoInvestimento" styleClass="btn-action-investment" text="+ Investimento" />
+                                                                    </children>
+                                                                </FlowPane>
+                                                            </children>
+                                                        </VBox>
+
+                                                        <StackPane minHeight="560.0" VBox.vgrow="ALWAYS">
+                                                            <children>
+                                                                <TableView fx:id="tabelaLancamentos" onMouseClicked="#preencherFormularioComSelecionado" styleClass="modern-table">
+                                                                    <columns>
+                                                                        <TableColumn fx:id="colunaData" prefWidth="90.0" text="Data" />
+                                                                        <TableColumn fx:id="colunaCategoria" prefWidth="120.0" text="Categoria" />
+                                                                        <TableColumn fx:id="colunaTipo" prefWidth="100.0" text="Tipo" />
+                                                                        <TableColumn fx:id="colunaValor" prefWidth="120.0" text="Valor" />
+                                                                        <TableColumn fx:id="colunaDescricao" prefWidth="220.0" text="Descricao" />
+                                                                        <TableColumn fx:id="colunaAcoes" prefWidth="140.0" sortable="false" text="Acoes" />
+                                                                    </columns>
+                                                                </TableView>
+
+                                                                <TabPane fx:id="painelGraficos" managed="false" minHeight="540.0" styleClass="chart-tabs" tabClosingPolicy="UNAVAILABLE" visible="false">
+                                                                    <tabs>
+                                                                        <Tab text="Fluxo anual">
+                                                                            <content>
+                                                                                <BarChart fx:id="graficoFluxoAnual" legendSide="TOP" styleClass="modern-chart" title="Comparativo anual" StackPane.alignment="CENTER">
+                                                                                    <xAxis>
+                                                                                        <CategoryAxis label="Meses" side="BOTTOM" />
+                                                                                    </xAxis>
+                                                                                    <yAxis>
+                                                                                        <NumberAxis label="Valor" side="LEFT" />
+                                                                                    </yAxis>
+                                                                                </BarChart>
+                                                                            </content>
+                                                                        </Tab>
+                                                                        <Tab text="Despesas por categoria">
+                                                                            <content>
+                                                                                <PieChart fx:id="graficoDespesasPorCategoria" styleClass="modern-chart, expense-pie-chart" title="Despesas por categoria" />
+                                                                            </content>
+                                                                        </Tab>
+                                                                        <Tab text="Receitas por categoria">
+                                                                            <content>
+                                                                                <PieChart fx:id="graficoReceitasPorCategoria" styleClass="modern-chart, income-pie-chart" title="Receitas por categoria" />
+                                                                            </content>
+                                                                        </Tab>
+                                                                        <Tab text="Desempenho mensal">
+                                                                            <content>
+                                                                                <LineChart fx:id="graficoDesempenhoMensal" createSymbols="true" legendSide="TOP" styleClass="modern-chart, performance-line-chart" title="Desempenho mensal">
+                                                                                    <xAxis>
+                                                                                        <CategoryAxis label="Mes" side="BOTTOM" />
+                                                                                    </xAxis>
+                                                                                    <yAxis>
+                                                                                        <NumberAxis label="Valor" side="LEFT" />
+                                                                                    </yAxis>
+                                                                                </LineChart>
+                                                                            </content>
+                                                                        </Tab>
+                                                                    </tabs>
+                                                                </TabPane>
+                                                            </children>
+                                                        </StackPane>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox fx:id="painelDireito" minWidth="300.0" prefWidth="390.0" spacing="18.0">
+                                            <children>
+                                                <VBox styleClass="card-container, form-card">
+                                                    <padding>
+                                                        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+                                                    </padding>
+                                                    <children>
+                                                        <Label fx:id="lblTituloFormulario" styleClass="card-title" text="Nova movimentacao" wrapText="true">
+                                                            <VBox.margin>
+                                                                <Insets bottom="12.0" />
+                                                            </VBox.margin>
+                                                        </Label>
+
+                                                        <GridPane hgap="10.0" vgap="10.0">
+                                                            <columnConstraints>
+                                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                            </columnConstraints>
+                                                            <rowConstraints>
+                                                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                            </rowConstraints>
+                                                            <children>
+                                                                <VBox spacing="5.0" GridPane.columnSpan="2">
+                                                                    <children>
+                                                                        <Label styleClass="form-label" text="Tipo de movimentacao" wrapText="true" />
+                                                                        <FlowPane hgap="12.0" vgap="8.0">
+                                                                            <children>
+                                                                                <RadioButton fx:id="rbReceita" selected="true" styleClass="modern-radio" text="Receita">
+                                                                                    <toggleGroup>
+                                                                                        <ToggleGroup fx:id="grupoTipo" />
+                                                                                    </toggleGroup>
+                                                                                </RadioButton>
+                                                                                <RadioButton fx:id="rbDespesa" styleClass="modern-radio" text="Despesa" toggleGroup="$grupoTipo" />
+                                                                                <RadioButton fx:id="rbInvestimento" styleClass="modern-radio" text="Investimento" toggleGroup="$grupoTipo" />
+                                                                            </children>
+                                                                        </FlowPane>
+                                                                    </children>
+                                                                </VBox>
+
+                                                                <VBox spacing="5.0" GridPane.rowIndex="1">
+                                                                    <children>
+                                                                        <Label styleClass="form-label" text="Valor" wrapText="true" />
+                                                                        <TextField fx:id="txtValor" promptText="0,00" styleClass="modern-input" />
+                                                                    </children>
+                                                                </VBox>
+
+                                                                <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                                    <children>
+                                                                        <Label styleClass="form-label" text="Data" wrapText="true" />
+                                                                        <DatePicker fx:id="seletorData" promptText="dd/mm/aaaa" styleClass="modern-datepicker" />
+                                                                    </children>
+                                                                </VBox>
+
+                                                                <VBox spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                                                                    <children>
+                                                                        <Label styleClass="form-label" text="Categoria" wrapText="true" />
+                                                                        <HBox alignment="CENTER_LEFT" spacing="6.0">
+                                                                            <children>
+                                                                                <ComboBox fx:id="cbCategoria" editable="false" maxWidth="1.7976931348623157E308" promptText="Selecione" styleClass="modern-combo" HBox.hgrow="ALWAYS" />
+                                                                                <Button fx:id="botaoAdicionarCategoria" onAction="#cadastrarNovaCategoria" prefHeight="35.0" prefWidth="35.0" styleClass="btn-secondary" text="+" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                    </children>
+                                                                </VBox>
+
+                                                                <VBox spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                                                                    <children>
+                                                                        <Label styleClass="form-label" text="Descricao" wrapText="true" />
+                                                                        <TextArea fx:id="txtDescricao" prefRowCount="3" promptText="Ex: Mercado" styleClass="modern-input" wrapText="true" />
+                                                                    </children>
+                                                                </VBox>
+                                                            </children>
+                                                        </GridPane>
+
+                                                        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                                            <VBox.margin>
+                                                                <Insets top="15.0" />
+                                                            </VBox.margin>
+                                                            <children>
+                                                                <Button fx:id="botaoCancelar" managed="false" onAction="#cancelarEdicao" styleClass="btn-secondary" text="Cancelar" visible="false" />
+                                                                <Button fx:id="botaoSalvar" onAction="#salvarLancamento" styleClass="btn-primary" text="Salvar" />
+                                                            </children>
+                                                        </HBox>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </content>
+                        </ScrollPane>
+    </center>
+</BorderPane>

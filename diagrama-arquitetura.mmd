@@ -1,0 +1,101 @@
+flowchart TD
+    Main["Main"] --> View["MainView.fxml"]
+    View --> MainController["MainController"]
+    View --> Styles["styles.css"]
+
+    subgraph Interface["Interface"]
+        View
+        Styles
+    end
+
+    subgraph Controllers["Controllers"]
+        MainController
+        CadastrarReceitaController["CadastrarReceitaController"]
+        CadastrarDespesaController["CadastrarDespesaController"]
+        CadastrarInvestimentoController["CadastrarInvestimentoController"]
+        EditarLancamentoController["EditarLancamentoController"]
+        RemoverLancamentoController["RemoverLancamentoController"]
+        CadastrarCategoriaController["CadastrarCategoriaController"]
+        RemoverCategoriaController["RemoverCategoriaController"]
+        ListarCategoriasController["ListarCategoriasController"]
+        ListarLancamentosController["ListarLancamentosController"]
+        FiltrarLancamentosPorPeriodoController["FiltrarLancamentosPorPeriodoController"]
+        VisualizarDesempenhoMensalController["VisualizarDesempenhoMensalController"]
+    end
+
+    subgraph Services["Services"]
+        LancamentoService["LancamentoService"]
+        CategoriaService["CategoriaService"]
+        RelatorioService["RelatorioService"]
+    end
+
+    subgraph DAOs["DAOs por entidade"]
+        LancamentoDAO["LancamentoDAO"]
+        CategoriaDAO["CategoriaDAO"]
+    end
+
+    subgraph Database["Banco de dados"]
+        ConexaoMySQL["ConexaoMySQL"]
+        InicializadorBanco["InicializadorBanco"]
+    end
+
+    subgraph Dominio["Dominio e factory"]
+        LancamentoFactory["LancamentoFactory"]
+        Lancamento["Lancamento"]
+        Receita["Receita"]
+        Despesa["Despesa"]
+        Investimento["Investimento"]
+        Categoria["Categoria"]
+        TipoLancamento["TipoLancamento"]
+        DesempenhoMensal["DesempenhoMensal"]
+    end
+
+    MainController --> CadastrarReceitaController --> LancamentoService
+    MainController --> CadastrarDespesaController --> LancamentoService
+    MainController --> CadastrarInvestimentoController --> LancamentoService
+    MainController --> EditarLancamentoController --> LancamentoService
+    MainController --> RemoverLancamentoController --> LancamentoService
+    MainController --> ListarLancamentosController --> LancamentoService
+    MainController --> FiltrarLancamentosPorPeriodoController --> LancamentoService
+    MainController --> CadastrarCategoriaController --> CategoriaService
+    MainController --> RemoverCategoriaController --> CategoriaService
+    MainController --> ListarCategoriasController --> CategoriaService
+    MainController --> VisualizarDesempenhoMensalController --> RelatorioService
+
+    LancamentoService --> LancamentoDAO
+    CategoriaService --> CategoriaDAO
+    RelatorioService --> LancamentoDAO
+    LancamentoService --> LancamentoFactory
+
+    LancamentoDAO --> ConexaoMySQL
+    CategoriaDAO --> ConexaoMySQL
+    InicializadorBanco --> ConexaoMySQL
+    InicializadorBanco --> CategoriaDAO
+
+    LancamentoDAO --> LancamentoFactory
+    LancamentoFactory --> Receita
+    LancamentoFactory --> Despesa
+    LancamentoFactory --> Investimento
+    Receita --> Lancamento
+    Despesa --> Lancamento
+    Investimento --> Lancamento
+    Lancamento --> TipoLancamento
+    Lancamento --> Categoria
+    RelatorioService --> DesempenhoMensal
+
+    classDef app fill:#111827,stroke:#334155,color:#ffffff
+    classDef interface fill:#e0f2fe,stroke:#0284c7,color:#0c4a6e
+    classDef controller fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    classDef service fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef dao fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    classDef database fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef dominio fill:#ede9fe,stroke:#7c3aed,color:#3b0764
+
+    class Main app
+    class View,Styles interface
+    class MainController,CadastrarReceitaController,CadastrarDespesaController,CadastrarInvestimentoController,EditarLancamentoController,RemoverLancamentoController controller
+    class CadastrarCategoriaController,RemoverCategoriaController,ListarCategoriasController,ListarLancamentosController,FiltrarLancamentosPorPeriodoController,VisualizarDesempenhoMensalController controller
+    class LancamentoService,CategoriaService,RelatorioService service
+    class LancamentoDAO,CategoriaDAO dao
+    class ConexaoMySQL,InicializadorBanco database
+    class LancamentoFactory,Lancamento,Receita,Despesa,Investimento,Categoria,TipoLancamento,DesempenhoMensal dominio

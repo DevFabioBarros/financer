@@ -1,0 +1,160 @@
+classDiagram
+    class Main {
+        +main(String[] args) void
+        +start(Stage stage) void
+    }
+
+    class MainController {
+        -boolean temaEscuro
+        -Long lancamentoEmEdicaoId
+        +initialize() void
+        +salvarLancamento() void
+        +cancelarEdicao() void
+        +prepararNovaReceita() void
+        +prepararNovaDespesa() void
+        +prepararNovoInvestimento() void
+        +alternarTema() void
+        +exibirTabela() void
+        +exibirGraficos() void
+        +cadastrarNovaCategoria() void
+    }
+
+    class CadastrarReceitaController
+    class CadastrarDespesaController
+    class CadastrarInvestimentoController
+    class EditarLancamentoController
+    class RemoverLancamentoController
+    class CadastrarCategoriaController
+    class RemoverCategoriaController
+    class ListarCategoriasController
+    class ListarLancamentosController
+    class FiltrarLancamentosPorPeriodoController
+    class VisualizarDesempenhoMensalController
+
+    class LancamentoService {
+        +cadastrar(TipoLancamento tipo, String descricao, BigDecimal valor, LocalDate data, String categoria, String comentario) Lancamento
+        +editar(Long id, TipoLancamento tipo, String descricao, BigDecimal valor, LocalDate data, String categoria, String comentario) Lancamento
+        +remover(Long id) void
+        +listar() List~Lancamento~
+        +filtrarPorPeriodo(int mes, int ano) List~Lancamento~
+    }
+
+    class CategoriaService {
+        +cadastrar(String nome) Categoria
+        +remover(String nome) void
+        +listar() List~String~
+    }
+
+    class RelatorioService {
+        +visualizarDesempenhoMensal() List~DesempenhoMensal~
+    }
+
+    class LancamentoDAO {
+        +salvar(Lancamento lancamento) void
+        +editar(Lancamento lancamento) void
+        +remover(Long id) void
+        +listarTodos() List~Lancamento~
+        +listarPorPeriodo(int mes, int ano) List~Lancamento~
+    }
+
+    class CategoriaDAO {
+        +salvar(String nome) void
+        +listar() List~String~
+        +remover(String nome) void
+        +garantirPadroes() void
+    }
+
+    class LancamentoFactory {
+        +criar(TipoLancamento tipo, Long id, String descricao, BigDecimal valor, LocalDate data, String categoria, String comentario) Lancamento
+    }
+
+    class Lancamento {
+        <<abstract>>
+        -Long id
+        -String descricao
+        -BigDecimal valor
+        -LocalDate data
+        -Categoria categoria
+        -String comentario
+        +getTipo() TipoLancamento
+    }
+
+    class Receita
+    class Despesa
+    class Investimento
+
+    class Categoria {
+        -String nome
+    }
+
+    class TipoLancamento {
+        <<enumeration>>
+        RECEITA
+        DESPESA
+        INVESTIMENTO
+    }
+
+    class DesempenhoMensal {
+        -YearMonth mes
+        -BigDecimal totalReceitas
+        -BigDecimal totalDespesas
+        -BigDecimal totalInvestimentos
+        -BigDecimal saldo
+    }
+
+    class ConexaoMySQL {
+        +conectar() Connection
+    }
+
+    class InicializadorBanco {
+        +inicializar() void
+    }
+
+    Main --> MainController
+    MainController ..> CadastrarReceitaController
+    MainController ..> CadastrarDespesaController
+    MainController ..> CadastrarInvestimentoController
+    MainController ..> EditarLancamentoController
+    MainController ..> RemoverLancamentoController
+    MainController ..> CadastrarCategoriaController
+    MainController ..> RemoverCategoriaController
+    MainController ..> ListarCategoriasController
+    MainController ..> ListarLancamentosController
+    MainController ..> FiltrarLancamentosPorPeriodoController
+    MainController ..> VisualizarDesempenhoMensalController
+
+    CadastrarReceitaController --> LancamentoService
+    CadastrarDespesaController --> LancamentoService
+    CadastrarInvestimentoController --> LancamentoService
+    EditarLancamentoController --> LancamentoService
+    RemoverLancamentoController --> LancamentoService
+    ListarLancamentosController --> LancamentoService
+    FiltrarLancamentosPorPeriodoController --> LancamentoService
+    CadastrarCategoriaController --> CategoriaService
+    RemoverCategoriaController --> CategoriaService
+    ListarCategoriasController --> CategoriaService
+    VisualizarDesempenhoMensalController --> RelatorioService
+
+    LancamentoService --> LancamentoDAO
+    LancamentoService --> LancamentoFactory
+    CategoriaService --> CategoriaDAO
+    RelatorioService --> LancamentoDAO
+    RelatorioService ..> DesempenhoMensal
+
+    LancamentoDAO --> LancamentoFactory
+    LancamentoDAO ..> ConexaoMySQL
+    CategoriaDAO ..> ConexaoMySQL
+    InicializadorBanco ..> ConexaoMySQL
+    InicializadorBanco ..> CategoriaDAO
+
+    Lancamento <|-- Receita
+    Lancamento <|-- Despesa
+    Lancamento <|-- Investimento
+    Lancamento --> Categoria
+    Lancamento --> TipoLancamento
+    DesempenhoMensal ..> Lancamento
+
+    LancamentoFactory ..> Receita
+    LancamentoFactory ..> Despesa
+    LancamentoFactory ..> Investimento
+    LancamentoFactory ..> TipoLancamento
